@@ -43,6 +43,7 @@ def balance_inquiry():
     if not current_user:
         print("Please log in first.")
         return
+    
     print(
         f"User: {current_user} | Balance: {users_db[current_user]['balance']} BTC"
     )
