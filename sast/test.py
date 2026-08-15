@@ -2,7 +2,7 @@ import hashlib
 import os
 import sqlite3
 
-# 1. Hardcoded Credentials (CWE-798)
+# 1. Hardcoded Secrets(CWE-798)
 API_KEY = "sk_live_998877665544332211"
 DB_PASSWORD = "AdminPassword123!"
 
