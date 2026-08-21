@@ -1,0 +1,116 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260816021602
+Username: LAPTOP-QC5M7DMU\tanma
+RunAs User: LAPTOP-QC5M7DMU\tanma
+Configuration Name: 
+Machine: LAPTOP-QC5M7DMU (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\tanma\AppData\Local\Programs\Microsoft VS Code\a5b5009513\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 15036
+PSVersion: 5.1.26100.8875
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.8875
+BuildVersion: 10.0.26100.8875
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is sast\sast_log.txt
+]633;D;0]633;A]633;P;Cwd=G:\x5cfiles\x5cCrypto\x5cLAB1PS G:\files\Crypto\LAB1> ]633;B
+(.venv) history > sast/sast_log.txt
+out-file : The process cannot access the file 'G:\files\Crypto\LAB1\sast\sast_log.txt' because it is being used by 
+another process.
+At line:1 char:1
++ history > sast/sast_log.txt
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OpenError: (:) [Out-File], IOException
+    + FullyQualifiedErrorId : FileOpenFailure,Microsoft.PowerShell.Commands.OutFileCommand
+out-file : The process cannot access the file 'G:\files\Crypto\LAB1\sast\sast_log.txt' because it is being used by another
+process.
+At line:1 char:1
++ history > sast/sast_log.txt
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OpenError: (:) [Out-File], IOException
+    + FullyQualifiedErrorId : FileOpenFailure,Microsoft.PowerShell.Commands.OutFileCommand
+
+]633;D;0]633;A]633;P;Cwd=G:\x5cfiles\x5cCrypto\x5cLAB1PS G:\files\Crypto\LAB1> ]633;B
+(.venv) semgrep --version
+
+]633;D;0]633;A]633;P;Cwd=G:\x5cfiles\x5cCrypto\x5cLAB1PS G:\files\Crypto\LAB1> ]633;B
+(.venv) cat sast/vulnerable_app.py
+cat : Cannot find path 'G:\files\Crypto\LAB1\sast\vulnerable_app.py' because it does not exist.
+At line:1 char:1
++ cat sast/vulnerable_app.py
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (G:\files\Crypto...lnerable_app.py:String) [Get-Content], 
+ItemNotFoundException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+cat : Cannot find path 'G:\files\Crypto\LAB1\sast\vulnerable_app.py' because it does not exist.
+At line:1 char:1
++ cat sast/vulnerable_app.py
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (G:\files\Crypto...lnerable_app.py:String) [Get-Content], ItemNotFoundException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+
+]633;D;0]633;A]633;P;Cwd=G:\x5cfiles\x5cCrypto\x5cLAB1PS G:\files\Crypto\LAB1> ]633;B
+(.venv) cat sast/test.py
+import hashlib
+import os
+import sqlite3
+
+# 1. Hardcoded Credentials (CWE-798)
+API_KEY = "sk_live_998877665544332211"
+DB_PASSWORD = "AdminPassword123!"
+
+
+def process_user_login(username, password_input):
+    # 2. Broken Cryptography (CWE-327)
+    hashed_password = hashlib.md5(password_input.encode()).hexdigest()
+
+    conn = sqlite3.connect("users.db")
+    cursor = conn.cursor()
+
+    # 3. SQL Injection (CWE-89)
+    query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{hashed_password}'"
+    cursor.execute(query)
+    user = cursor.fetchone()
+    conn.close()
+    return user
+
+
+def run_system_backup(user_filename):
+    # 4. OS Command Injection (CWE-78)
+    command = f"cp {user_filename} /tmp/backup/"
+    os.system(command)
+
+
+def unsafe_eval_exec(user_expression):
+    # 5. Dangerous Code Evaluation (CWE-95)
+    return eval(user_expression)
+]633;D;0]633;A]633;P;Cwd=G:\x5cfiles\x5cCrypto\x5cLAB1PS G:\files\Crypto\LAB1> ]633;B
+(.venv) semgrep --config=auto sast/test.py
+
+]633;D;0]633;A]633;P;Cwd=G:\x5cfiles\x5cCrypto\x5cLAB1PS G:\files\Crypto\LAB1> ]633;B
+(.venv) semgrep --config=auto --json -o sast/semgrep_report.json sast/test.py
+
+
+
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+✅✅ Scan completed successfully.
+ • Findings: 4 (4 blocking)
+ • Rules run: 290
+ • Targets scanned: 1
+ • Parsed lines: ~100.0%
+ • No ignore information available
+Ran 290 rules on 1 file: 4 findings.
+�� Missed out on 1856 pro rules since you aren't logged in!
+⚡⚡ Supercharge Semgrep OSS when you create a free account at https://sg.run/rules.
+]633;D;0]633;A]633;P;Cwd=G:\x5cfiles\x5cCrypto\x5cLAB1PS G:\files\Crypto\LAB1> ]633;B
+(.venv) Move-Item -Path "sast" -Destination "CryptoLabX_Group06\"
+**********************
+Windows PowerShell transcript end
+End time: 20260816022156
+**********************
