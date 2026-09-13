@@ -1,0 +1,17 @@
+2.4 *Shannon's Theorem
+In his work on perfect secrecy, Shannon also provided a characterization of perfectly secret encryption schemes. This characterization says that, under certain conditions, the key-generation algorithm Gen must choose the key uniformly from the set of all possible keys (as in the one-time pad); moreover, for every message m and ciphertext c there is a unique key mapping m to c (again, as in the one-time pad). Beyond being interesting in its own right, this theorem is a useful tool for proving (or disproving) perfect secrecy of suggested schemes. We discuss this further after the proof.
+The theorem as stated here assumes |M| = |K| = |C|, meaning that the sets
+of plaintexts, keys, and ciphertexts all have the same size. We have already seen that for perfect secrecy we must have |K| > |M|. It is easy to see that correct decryption requires |C| > |M|. Therefore, in some sense, encryption
+schemes with |M| = |K| = |C| are "optimal."
+THEOREM 2.11 (Shannon's theorem)
+Let (Gen, Enc, Dec) be an en-
+cryption scheme with message space M, for which |M| = |K| = C. The
+scheme is perfectly secret if and only if:
+1. Every keyk & K is chosen with (equal) probability 1/|K| by algorithm Gen.
+2. For every m E M and every c E C, there exists a unique key k E K such that Enck(m) outputs c.
+PROOF The intuition behind the proof is as follows. To see that the stated conditions imply perfect secrecy, note that condition 2 means that any ciphertext c could be the result of encrypting any possible plaintext m. because there is some key k mapping m to c. Since there is a unique such key, and each key is chosen with equal probability, perfect secrecy follows as for the one-time pad. For the other direction, perfect secrecy immediately implies that for every m and c there is at least one key mapping m to c. The fact that
+|M| = |K| = |C| means, moreover, that for every m and c there is exactly one
+such key. Given this, each key must be chosen with equal probability or else perfect secrecy would fail to hold. A formal proof follows.
+We assume for simplicity that Enc is deterministic. (One can show that this is without loss of generality here.) We first prove that if the encryption scheme satisfies conditions 1 and 2, then it is perfectly secret. The proof is essentially the same as the proof of perfect secrecy for the one-time pad, so we will be relatively brief. Fix arbitrary c € C and m € M. Let k be the
+unique key, guaranteed by condition 2, for which Enck(m) = c. Then,
+Pr [C = c |M = m] = Pr[K = k] = 1/|K|,
