@@ -4,6 +4,14 @@
 
 This project implements cryptanalysis techniques for a Shift (Caesar) Cipher.
 
+The Shift Cipher is a monoalphabetic substitution cipher where each letter in the plaintext is shifted by a fixed
+key k in {0, 1,...25} modulo 26. Since the key space is small ( |K| = 26), brute-force decryption is trivial.
+Automated cryptanalysis automates key identification using two statistical techniques:
+
+Dictionary Scoring: Decrypts the ciphertext using all 26 possible keys and counts how many decrypted words match a reference English dictionary. The key producing the highest count of valid English words is selected.
+
+Chi-Square Analysis: Measures the goodness-of-fit between observed letter frequency distributions in candidate plaintexts and expected English letter frequencies. 
+
 The system supports:
 
 1. Shift Cipher encryption and decryption

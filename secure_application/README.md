@@ -41,12 +41,11 @@ This project implements a command-line interface (CLI) Cryptocurrency Wallet app
 ---
 
 ## Directory Layout
-```text
+
 secure_application/
 ├── src/
 │   └── crypto_wallet.py        # Core application source code
-├── reports/
-│   └── execution_log.txt       # Manual testing session logs[cite: 2]
+│   
 ├── screenshots/
 │   ├── 01_wallet_and_login.png
 │   ├── 02_broken_access_control.png

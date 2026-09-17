@@ -1,20 +1,3 @@
-
-
-Skip to content
-Using Malaviya National Institute of Technology, Jaipur Mail with screen readers
-
-1 of 3,392
-(no subject)
-Inbox
-
-TANMAY JAIN <2024ucp1083@mnit.ac.in>
-Attachments
-2:29 PM (3 minutes ago)
-to me
-
-
- 3 Attachments
-  •  Scanned by Gmail
 # CryptoLabX - Cryptanalysis Toolkit
 
 ## Group Information
@@ -50,7 +33,3 @@ CryptoLabX/
 - **JSON Report:** `sast/semgrep_report.json`
 
 Semgrep is a static analysis engine for finding bugs and vulnerabilities across multiple languages like Python. It installs via pip, matches code against AST rules, and flags findings using severity levels: ERROR, WARNING, and INFO.
-
-
-README.md
-Displaying README.md.
