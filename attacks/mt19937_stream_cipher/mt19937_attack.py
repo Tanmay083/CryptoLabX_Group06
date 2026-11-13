@@ -80,3 +80,103 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# ============================================================
+# PART B: PREDICTABLE PASSWORD RESET TOKEN ATTACK
+# ============================================================
+
+import time
+
+
+def generate_reset_token(timestamp: int) -> bytes:
+    """
+    Generate a 16-byte reset token using MT19937
+    seeded with a Unix timestamp.
+    """
+    bit_generator = np.random.MT19937(timestamp)
+    rng = np.random.Generator(bit_generator)
+
+    token = rng.integers(
+        0, 256, size=16, dtype=np.uint8
+    )
+
+    return token.tobytes()
+
+
+def predict_reset_token(observed_token: bytes,
+                        timestamp: int,
+                        window: int = 300):
+    """
+    Search timestamps from T-window to T+window
+    to recover the seed used for token generation.
+    """
+    candidates_tested = 0
+    recovered_timestamp = None
+
+    for candidate in range(timestamp - window,
+                           timestamp + window + 1):
+
+        candidates_tested += 1
+
+        candidate_token = generate_reset_token(candidate)
+
+        if candidate_token == observed_token:
+            recovered_timestamp = candidate
+            break
+
+    return recovered_timestamp, candidates_tested
+
+
+
+def timestamp_token_attack():
+    print("\n=== PART B: PREDICTABLE RESET TOKEN ATTACK ===")
+
+    # Record actual Unix timestamp
+    original_timestamp = int(time.time())
+
+    # Generate token using actual timestamp
+    original_token = generate_reset_token(original_timestamp)
+
+    print("Original timestamp:", original_timestamp)
+    print("Generated reset token:", original_token.hex())
+
+    # Simulate attacker's approximate timestamp estimate
+    window = 300
+    attacker_estimate = original_timestamp + 120
+
+    start_timestamp = attacker_estimate - window
+    end_timestamp = attacker_estimate + window
+
+    print("\n=== TIMESTAMP BRUTE-FORCE ATTACK ===")
+    print("Attacker's estimated timestamp:", attacker_estimate)
+    print("Search interval:", start_timestamp, "to", end_timestamp)
+    print("Total possible timestamps:", 2 * window + 1)
+
+    recovered_timestamp, candidates_tested = predict_reset_token(
+        original_token,
+        attacker_estimate,
+        window
+    )
+
+    print("Candidates tested:", candidates_tested)
+    print("Recovered timestamp:", recovered_timestamp)
+
+    # Verify recovered timestamp
+    if recovered_timestamp is not None:
+        recovered_token = generate_reset_token(recovered_timestamp)
+
+        print("\n=== VERIFICATION ===")
+        print("Regenerated token:", recovered_token.hex())
+        print(
+            "Timestamp recovered correctly:",
+            recovered_timestamp == original_timestamp
+        )
+        print(
+            "Token verification successful:",
+            recovered_token == original_token
+        )
+    else:
+        print("No matching timestamp found.")
+
+# Execute Part B
+timestamp_token_attack()
